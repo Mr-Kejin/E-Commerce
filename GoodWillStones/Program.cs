@@ -1,7 +1,16 @@
+using GoodWillStones.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(Options => 
+Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // configuring the db context with entity framework.core
+
+
+
 
 var app = builder.Build();
 
@@ -22,6 +31,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"); // when nothing is selected we are getting back to the home controller 
 
 app.Run();
