@@ -5,9 +5,9 @@ namespace GoodWillStones.Models
     public class Category
     {
         [Key]
-        public int Category_ID { get; set; }
+        public int lCategory_ID { get; set; }
         [Required]
-        public string  Name { get; set; }
-        public int DisplayOrder { get; set; }
+        public string  sDescription { get; set; }
+        public int sDisplayOrder { get; set; }
     }
 }
