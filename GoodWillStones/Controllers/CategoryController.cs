@@ -1,4 +1,5 @@
 ﻿using GoodWillStones.Data;
+using GoodWillStones.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodWillStones.Controllers
@@ -12,7 +13,12 @@ namespace GoodWillStones.Controllers
         }
         public IActionResult Index()
         {
-            var objCategoryList = _db.Categories.ToList(); // fetch data and show it in a list
+            List<Category> ObjCategoryList = _db.Categories.ToList();
+            //var objCategoryList = _db.Categories.ToList(); // fetch data and show it in a list
+            return View(ObjCategoryList); // passing the data to view 
+        }
+        public IActionResult CreateCategory ()
+        {
             return View();
         }
     }

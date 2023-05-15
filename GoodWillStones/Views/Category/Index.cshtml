@@ -1,3 +1,46 @@
-﻿<h1>Category List</h1>
-<h2> This page is now under constructiion </h2>
-<h3> By Mr.Kejin</h3>
+﻿@model List<Category>
+
+    <div class="container"> 
+        <div class="row pt-4">
+            <div class="col-6">
+                <h2 class=" text-primary">
+                    Category list 
+                </h2>
+            </div>
+            <div class="col-6 text-end">
+            <a asp-controller="Category" asp-action="CreateCategory" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> create New Category
+                </a>
+            </div>
+
+        </div>
+<h1>Category List</h1>
+<table class="table table-bordered table-striped"> 
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Display Order
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model.OrderBy(u=>u.sDisplayOrder)) // we are ordering it 
+        //   @foreach we are using c# code beloe the purpose is to fetch all the data in the table, if its not used we used t fetch only one data 
+        { 
+        <tr>
+            <td>
+                     @obj.sDescription
+            </td>
+            
+            <td> 
+                    @obj.sDisplayOrder
+            </td> 
+        </tr>
+        }
+    </tbody>
+   
+</table>
+</div>
