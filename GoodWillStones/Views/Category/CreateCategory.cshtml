@@ -5,13 +5,15 @@
           <h2 class="text-primary"> Create New Category</h2>
           <hr/>
         </div>
-        <div class="mb-3 row p-0" >
-            <label > Category Name</label>
-            <label type="text" Class="form-control"></label>
+        <div class="mb-3 row p-1" >
+            <label asp-for="sDescription" class="p-0"> </label>
+            <input asp-for="sDescription" Class="form-control"></>
+            <span asp-validation-for="sDescription" class="text-danger"></span>
         </div>
-        <div class="mb-3 row p-0" >
-            <label> Display Order </label>
-            <label type="text" Class="form-control"></label>
+        <div class="mb-3 row p-1" >
+            <label class="p-0 "> Display Order </label>
+            <input asp-for="sDisplayOrder"  Class="form-control"></>
+            <span asp-validation-for="sDisplayOrder" class="text-danger"></span>
         </div>
         <div class="row">
             <div class="col-6 col-md-3">
