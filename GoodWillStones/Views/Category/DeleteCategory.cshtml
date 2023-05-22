@@ -1,0 +1,29 @@
+﻿@model Category
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary"> Delete Category</h2>
+            <hr />
+        </div>
+        @*<div asp-validation-summary="All"></div> this is a custom validation*@
+        <div class="mb-3 row p-1">
+            <label asp-for="sDescription" class="p-0"> </label>
+            <input asp-for="sDescription" disabled Class="form-control"></>
+        </div>
+        <div class="mb-3 row p-1">
+            <label class="p-0 "> Display Order </label>
+            <input asp-for="sDisplayOrder" Class="form-control"></>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class=" btn btn-outline-danger border form-control"> Delete </button>
+            </div>
+            <div class="col-6  row col-md-3">
+                <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary border form-control">
+                    Return to list
+                </a>
+
+            </div>
+        </div>
+    </div>
+</form>
