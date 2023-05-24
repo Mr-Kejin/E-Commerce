@@ -1,6 +1,6 @@
 ﻿@model Category
 <form method="post">
-    <input asp-for="lCategory_ID" hidden />
+    <input asp-for="lCategory_ID" hidden /> @* passing the category id to the coding or else it will create an new one *@
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary"> Edit Category</h2>
