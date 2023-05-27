@@ -1,61 +1,67 @@
 ﻿@model List<Category>
-
-<div class="container"> 
-        <div class="row pt-4">
-            <div class="col-6">
-                @*<h2 class=" text-primary">
-                    Category list 
-                </h2>*@
+@*Template for card view*@
+<div class="card shadow border-10 mt-4">
+    <div class="card-header bg-black bg-gradient mt-4 py-3">
+        <div class="row">
+            <div class="Col-12 text-center">
+                <h2 class="text-White py-2">Category List</h2>
             </div>
-            <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="CreateCategory" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> create New Category
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            
+            <div class="text-end ">
+                @*<p align="right">  </p>*@
+                <a asp-controller="Category" asp-action="CreateCategory" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> create New Category
                 </a>
             </div>
 
         </div>
-<h1>Category List</h1>
-<table class="table table-bordered table-striped"> 
-    <thead>
-        <tr>
-            <th>
-                Category Name
-            </th>
-            <th>
-                Display Order
-            </th>
-            <th>
+        @*<h1>Category List</h1>*@
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Category Name
+                    </th>
+                    <th>
+                        Display Order
+                    </th>
+                    <th>
 
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var obj in Model.OrderBy(u=>u.sDisplayOrder)) // we are ordering it 
-        //   @foreach we are using c# code beloe the purpose is to fetch all the data in the table, if its not used we used t fetch only one data 
-        { 
-        <tr>
-            <td>
-                     @obj.sDescription
-            </td>
-            
-            <td> 
-                    @obj.sDisplayOrder
-            </td> 
-            <td>
-                <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Category" asp-action="EditCategory" asp-route-categoryId="@obj.lCategory_ID" class="btn btn-primary mx-2">
-                                <i class="bi bi-pencil-square"></i> EDIT
-                    </a>
-                    <a asp-controller="Category" asp-action="DeleteCategory" asp-route-categoryId="@obj.lCategory_ID" class="btn btn-danger mx-2">
-                                <i class="bi bi-trash3-fill"></i> Delete
-                    </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model.OrderBy(u => u.sDisplayOrder)) // we are ordering it
+                                                                         //   @foreach we are using c# code beloe the purpose is to fetch all the data in the table, if its not used we used t fetch only one data
+                {
+                    <tr>
+                        <td>
+                            @obj.sDescription
+                        </td>
 
-                </div>
-            </td>
+                        <td>
+                            @obj.sDisplayOrder
+                        </td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Category" asp-action="EditCategory" asp-route-categoryId="@obj.lCategory_ID" class="btn btn-primary mx-2">
+                                    <i class="bi bi-pencil-square"></i> EDIT
+                                </a>
+                                <a asp-controller="Category" asp-action="DeleteCategory" asp-route-categoryId="@obj.lCategory_ID" class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash3-fill"></i> Delete
+                                </a>
 
-        </tr>
-        }
-    </tbody>
-   
-</table>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
 </div>
