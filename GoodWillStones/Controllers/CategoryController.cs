@@ -1,4 +1,4 @@
-﻿using GoodWillStones.Data;
+﻿using GoodWillStones.DataAccess.Data;
 using GoodWillStones.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;

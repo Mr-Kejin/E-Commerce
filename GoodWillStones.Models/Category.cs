@@ -10,9 +10,9 @@ namespace GoodWillStones.Models
         [Required]
         [MaxLength(50)]
         [DisplayName("Name")]
-        public string  sDescription { get; set; }
+        public string sDescription { get; set; }
         [DisplayName("Display Order")]
-        [Range(1,100)]
+        [Range(1, 100)]
         public int sDisplayOrder { get; set; }
         //public DateTime dtCreated { get; set; } we must update the time when we have created it 
 

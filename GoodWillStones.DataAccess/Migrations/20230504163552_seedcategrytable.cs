@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace GoodWillStones.Migrations
+namespace GoodWillStones.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class seedcategrytable : Migration

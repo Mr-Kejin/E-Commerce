@@ -1,4 +1,4 @@
-using GoodWillStones.Data;
+using GoodWillStones.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 

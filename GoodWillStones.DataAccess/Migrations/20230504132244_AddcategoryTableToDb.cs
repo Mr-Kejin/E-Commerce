@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace GoodWillStones.Migrations
+namespace GoodWillStones.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddcategoryTableToDb : Migration

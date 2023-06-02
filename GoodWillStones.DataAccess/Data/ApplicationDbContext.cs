@@ -1,7 +1,7 @@
 ﻿using GoodWillStones.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoodWillStones.Data
+namespace GoodWillStones.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
