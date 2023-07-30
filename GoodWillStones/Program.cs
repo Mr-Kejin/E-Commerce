@@ -1,4 +1,6 @@
 using GoodWillStones.DataAccess.Data;
+using GoodWillStones.DataAccess.Repositary;
+using GoodWillStones.DataAccess.Repositary.iRepositary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -8,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(Options => 
 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // configuring the db context with entity framework.core
-
+builder.Services.AddScoped<iCategoryRepositry, CategoryRepositary >();
 
 
 

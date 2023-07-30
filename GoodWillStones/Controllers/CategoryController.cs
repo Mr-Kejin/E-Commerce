@@ -1,4 +1,5 @@
 ﻿using GoodWillStones.DataAccess.Data;
+using GoodWillStones.DataAccess.Repositary.iRepositary;
 using GoodWillStones.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -7,15 +8,15 @@ namespace GoodWillStones.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly iCategoryRepositry _CategoryRepo; // insted of using the application db con we are suing a speciified method here using dependency iinjectiion
 
-        public CategoryController(ApplicationDbContext db)
+        public CategoryController(iCategoryRepositry db)
         {
-            _db = db;
+            _CategoryRepo = db;
         }
         public IActionResult Index()
         {
-            List<Category> ObjCategoryList = _db.Categories.ToList();
+            List<Category> ObjCategoryList = _CategoryRepo.GetAll().ToList();
             //var objCategoryList = _db.Categories.ToList(); // fetch data and show it in a list
             return View(ObjCategoryList); // passing the data to view 
         }
@@ -26,11 +27,15 @@ namespace GoodWillStones.Controllers
         [HttpPost]
         public IActionResult CreateCategory(Category Obj)
         {
-
+            if(Obj.sDescription == Obj.sDisplayOrder.ToString())
+            {
+                ModelState.AddModelError("sDescription", "The display order cant exactly match");
+            }
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(Obj); // we are telling the entity fw to add this category to the entity table 
-                _db.SaveChanges();
+                _CategoryRepo.Add(Obj); // we are telling the entity fw to add this category to the entity table 
+                _CategoryRepo.Save();
+                //_CategoryRepo.Save();
                 TempData["Success"] = "Category Created Successfully";
                 return RedirectToAction("Index");
             }
@@ -43,7 +48,8 @@ namespace GoodWillStones.Controllers
                 return NotFound();
             }
             // Category CategoryFromDb = _db.Categories.Find(categoryId); find will ony work on the primary key of the table. but first or default will work everytime 
-            Category? CategoryFromDb = _db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
+            Category? CategoryFromDb = _CategoryRepo.Get(u=>u.lCategory_ID == categoryId);
+                //_db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
             if (CategoryFromDb == null)
             {
                 return NotFound();
@@ -55,8 +61,8 @@ namespace GoodWillStones.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Categories.Update(Obj); // we are telling the entity fw to add this category to the entity table 
-                _db.SaveChanges();
+                _CategoryRepo.Update(Obj); // we are telling the entity fw to add this category to the entity table 
+                _CategoryRepo.Save();
                 TempData["Success"] = "Category Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -71,7 +77,8 @@ namespace GoodWillStones.Controllers
                 return NotFound();
             }
             // Category CategoryFromDb = _db.Categories.Find(categoryId); find will ony work on the primary key of the table. but first or default will work everytime 
-            Category? CategoryFromDb = _db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
+            Category? CategoryFromDb = _CategoryRepo.Get(x=>x.lCategory_ID == categoryId);
+                // Finding using the lamda expression _db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
             if (CategoryFromDb == null)
             {
                 return NotFound();
@@ -82,14 +89,15 @@ namespace GoodWillStones.Controllers
         [HttpPost, ActionName ("DeleteCategory")]
         public IActionResult DeleteCategoryPost (int? categoryId)
         {
-            Category? obj = _db.Categories.Find(categoryId);
+            Category? obj = _CategoryRepo.Get(x=>x.lCategory_ID==categoryId);
+                //_db.Categories.Find(categoryId);
             if (obj == null)
             {
                 return NotFound();
             }
-            _db.Categories.Remove(obj);
+            _CategoryRepo.Remove(obj);
             TempData["Success"] = "Category Deleted Successfully";
-            _db.SaveChanges();
+            _CategoryRepo.Save();
             return RedirectToAction("Index");         
         }
 
