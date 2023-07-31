@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(Options => 
 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // configuring the db context with entity framework.core
-builder.Services.AddScoped<iCategoryRepositry, CategoryRepositary >();
+builder.Services.AddScoped<iUnitOfWork, UnitOfWork >();
 
 
 
@@ -33,6 +33,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"); // when nothing is selected we are getting back to the home controller 
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"); // when nothing is selected we are getting back to the home controller 
 
 app.Run();

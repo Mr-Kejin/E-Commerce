@@ -11,6 +11,6 @@ namespace GoodWillStones.DataAccess.Repositary.iRepositary
     public interface iCategoryRepositry : iRepositary<Category>
     {
         void Update(Category obj);
-        void Save ();
+        //void Save (); i have strated using unit oof work so commenting this out 
     }
 }

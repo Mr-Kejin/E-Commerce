@@ -4,19 +4,20 @@ using GoodWillStones.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace GoodWillStones.Controllers
+namespace GoodWillStones.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly iCategoryRepositry _CategoryRepo; // insted of using the application db con we are suing a speciified method here using dependency iinjectiion
+        private readonly iUnitOfWork _UnitOfWork; // insted of using the application db con we are suing a speciified method here using dependency iinjectiion
 
-        public CategoryController(iCategoryRepositry db)
+        public CategoryController(iUnitOfWork UnitOfWork)
         {
-            _CategoryRepo = db;
+            _UnitOfWork = UnitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> ObjCategoryList = _CategoryRepo.GetAll().ToList();
+            List<Category> ObjCategoryList = _UnitOfWork.Category.GetAll().ToList();
             //var objCategoryList = _db.Categories.ToList(); // fetch data and show it in a list
             return View(ObjCategoryList); // passing the data to view 
         }
@@ -27,14 +28,14 @@ namespace GoodWillStones.Controllers
         [HttpPost]
         public IActionResult CreateCategory(Category Obj)
         {
-            if(Obj.sDescription == Obj.sDisplayOrder.ToString())
+            if (Obj.sDescription == Obj.sDisplayOrder.ToString())
             {
                 ModelState.AddModelError("sDescription", "The display order cant exactly match");
             }
             if (ModelState.IsValid)
             {
-                _CategoryRepo.Add(Obj); // we are telling the entity fw to add this category to the entity table 
-                _CategoryRepo.Save();
+                _UnitOfWork.Category.Add(Obj); // we are telling the entity fw to add this category to the entity table 
+                _UnitOfWork.Save();
                 //_CategoryRepo.Save();
                 TempData["Success"] = "Category Created Successfully";
                 return RedirectToAction("Index");
@@ -48,8 +49,8 @@ namespace GoodWillStones.Controllers
                 return NotFound();
             }
             // Category CategoryFromDb = _db.Categories.Find(categoryId); find will ony work on the primary key of the table. but first or default will work everytime 
-            Category? CategoryFromDb = _CategoryRepo.Get(u=>u.lCategory_ID == categoryId);
-                //_db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
+            Category? CategoryFromDb = _UnitOfWork.Category.Get(u => u.lCategory_ID == categoryId);
+            //_db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
             if (CategoryFromDb == null)
             {
                 return NotFound();
@@ -61,8 +62,8 @@ namespace GoodWillStones.Controllers
         {
             if (ModelState.IsValid)
             {
-                _CategoryRepo.Update(Obj); // we are telling the entity fw to add this category to the entity table 
-                _CategoryRepo.Save();
+                _UnitOfWork.Category.Update(Obj); // we are telling the entity fw to add this category to the entity table 
+                _UnitOfWork.Save();
                 TempData["Success"] = "Category Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -77,8 +78,8 @@ namespace GoodWillStones.Controllers
                 return NotFound();
             }
             // Category CategoryFromDb = _db.Categories.Find(categoryId); find will ony work on the primary key of the table. but first or default will work everytime 
-            Category? CategoryFromDb = _CategoryRepo.Get(x=>x.lCategory_ID == categoryId);
-                // Finding using the lamda expression _db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
+            Category? CategoryFromDb = _UnitOfWork.Category.Get(x => x.lCategory_ID == categoryId);
+            // Finding using the lamda expression _db.Categories.FirstOrDefault(u => u.lCategory_ID == categoryId);
             if (CategoryFromDb == null)
             {
                 return NotFound();
@@ -86,19 +87,19 @@ namespace GoodWillStones.Controllers
             return View(CategoryFromDb);
         }
         //delete Action
-        [HttpPost, ActionName ("DeleteCategory")]
-        public IActionResult DeleteCategoryPost (int? categoryId)
+        [HttpPost, ActionName("DeleteCategory")]
+        public IActionResult DeleteCategoryPost(int? categoryId)
         {
-            Category? obj = _CategoryRepo.Get(x=>x.lCategory_ID==categoryId);
-                //_db.Categories.Find(categoryId);
+            Category? obj = _UnitOfWork.Category.Get(x => x.lCategory_ID == categoryId);
+            //_db.Categories.Find(categoryId);
             if (obj == null)
             {
                 return NotFound();
             }
-            _CategoryRepo.Remove(obj);
+            _UnitOfWork.Category.Remove(obj);
             TempData["Success"] = "Category Deleted Successfully";
-            _CategoryRepo.Save();
-            return RedirectToAction("Index");         
+            _UnitOfWork.Save();
+            return RedirectToAction("Index");
         }
 
     }
