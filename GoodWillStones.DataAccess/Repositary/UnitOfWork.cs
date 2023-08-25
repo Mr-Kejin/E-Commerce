@@ -13,11 +13,12 @@ namespace GoodWillStones.DataAccess.Repositary
         //Application db context using dependency injection
         public ApplicationDbContext _db;
         public iCategoryRepositry Category { get; private set; }
-
+        public iProductRepositary Product { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Category = new CategoryRepositary(_db);
+            Product = new ProductRepositary(_db);
         }
 
         public void Save()

@@ -9,6 +9,7 @@ namespace GoodWillStones.DataAccess.Repositary.iRepositary
     public interface iUnitOfWork
     {
         iCategoryRepositry Category{ get; }
+        iProductRepositary Product { get; }
         void Save();
     }
 }
