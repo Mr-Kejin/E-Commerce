@@ -17,8 +17,8 @@ namespace GoodWillStones.DataAccess.Repositary
         public Repositary(ApplicationDbContext db) 
         { 
             _db = db;
-            this.dbset = _db.Set<T>();
-           // _db.Categories == dbset
+            this.dbset = _db.Set<T>(); // data has been inherited 
+           // _db.Categories == dbset 
            
         }
 

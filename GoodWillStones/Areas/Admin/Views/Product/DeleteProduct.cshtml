@@ -1,0 +1,58 @@
+﻿@model Products
+<div class="card shadow border-10 mt-4">
+    <div class="card-header bg-black bg-gradient mt-4 py-3">
+        <div class="row">
+            <div class="Col-14 text-center">
+                <h2 class="text-White py\"> Delete Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post">
+            <div class="border p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">  Product</h2>
+                    <hr />
+                </div>
+                @*<div asp-validation-summary="All"></div> this is a custom validation*@
+                @* Delete the validation part from Delete menu *@
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="sProductName" disabled class="form-control border-0 shadow"></>
+                    <label asp-for="sProductName" Class="ms-2"> </label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="sDescription" disabled class="form-control border-0 shadow" />
+                    <label asp-for="sDescription" Class="ms-2"> </label>
+                </div>
+                @*need to brainstrom on wether we required another column for price*@
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="ListPrice" disabled class="form-control border-0 shadow" />
+                    <label asp-for="ListPrice" Class="ms-2"> </label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Price" disabled class="form-control border-0 shadow" />
+                    <label asp-for="Price" Class="ms-2"> </label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Price50" disabled class="form-control border-0 shadow" />
+                    <label asp-for="Price50" Class="ms-2"> </label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="ListPrice100" disabled class="form-control border-0 shadow" />
+                    <label asp-for="ListPrice100" Class="ms-2"> </label>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class=" btn btn-outline-danger border form-control"> Delete </button>
+                    </div>
+                    <div class="col-6  row col-md-3">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary border form-control">
+                            Return to list
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -5,13 +5,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GoodWillStones.Models
 {
     public class Products
     {
         [Key]
-        public int Product_ID { get; set; }
+        public int? Product_ID { get; set; }
         [Required]
         [DisplayName("Name")]
         public string? sProductName { get; set; }
@@ -42,5 +43,8 @@ namespace GoodWillStones.Models
         [Display(Name = "Price above 100")]
         [Range(1, 100000)]
         public Double ListPrice100 { get; set; }
+        //public int CategoryId { get; set; } // forign key for the category 
+        //[ForeignKey("CategoryId")]
+        //public Category? Category { get; set; }
     }
 }
