@@ -43,8 +43,10 @@ namespace GoodWillStones.Models
         [Display(Name = "Price above 100")]
         [Range(1, 100000)]
         public Double ListPrice100 { get; set; }
-        //public int CategoryId { get; set; } // forign key for the category 
-        //[ForeignKey("CategoryId")]
-        //public Category? Category { get; set; }
+        public int CategoryId { get; set; } // forign key for the category 
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+
+      public string ImageURL { get; set; }    // image will be saved in this 
     }
 }

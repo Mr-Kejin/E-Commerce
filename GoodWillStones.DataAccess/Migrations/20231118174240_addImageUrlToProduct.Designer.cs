@@ -4,6 +4,7 @@ using GoodWillStones.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoodWillStones.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118174240_addImageUrlToProduct")]
+    partial class addImageUrlToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,9 +80,6 @@ namespace GoodWillStones.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Product_ID"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -106,15 +106,12 @@ namespace GoodWillStones.DataAccess.Migrations
 
                     b.HasKey("Product_ID");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Product_ID = 1,
-                            CategoryId = 2,
                             ImageURL = "",
                             ListPrice = 100.0,
                             ListPrice100 = 80.0,
@@ -123,17 +120,6 @@ namespace GoodWillStones.DataAccess.Migrations
                             sDescription = "It is a type of sand ",
                             sProductName = "M-sand"
                         });
-                });
-
-            modelBuilder.Entity("GoodWillStones.Models.Products", b =>
-                {
-                    b.HasOne("GoodWillStones.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

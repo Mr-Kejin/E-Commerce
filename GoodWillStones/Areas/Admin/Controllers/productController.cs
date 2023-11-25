@@ -1,9 +1,12 @@
 ﻿using GoodWillStones.DataAccess.Data;
+using GoodWillStones.DataAccess.Repositary;
 using GoodWillStones.DataAccess.Repositary.iRepositary;
 using GoodWillStones.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
 
 namespace GoodWillStones.Areas.Admin.Controllers
 {
@@ -23,15 +26,25 @@ namespace GoodWillStones.Areas.Admin.Controllers
         {
             List<Products> ObjProductList = _UnitOfWork.Product.GetAll().ToList();
             //var objProductList = _db.Categories.ToList(); // fetch data and show it in a list
+           
             return View(ObjProductList); // passing the data to view 
         }
         public IActionResult CreateProduct()
         {
+            // using projection we are doing it 
+            // Populating the products drop down 
+            IEnumerable<SelectListItem> CategoryList = _UnitOfWork.Category.GetAll().Select(x => new SelectListItem
+            {
+                Text = x.sDescription,
+                Value = x.lCategory_ID.ToString()
+            });
+            ViewBag.categoryList = CategoryList;
             return View();
         }
         [HttpPost]
         public IActionResult CreateProduct(Products Obj)
         {
+
             if (ModelState.IsValid)
             {
                 _UnitOfWork.Product.Add(Obj); // we are telling the entity fw to add this category to the entity table 

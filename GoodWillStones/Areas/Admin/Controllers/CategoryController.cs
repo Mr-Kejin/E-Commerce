@@ -19,7 +19,7 @@ namespace GoodWillStones.Areas.Admin.Controllers
         {
             List<Category> ObjCategoryList = _UnitOfWork.Category.GetAll().ToList();
             //var objCategoryList = _db.Categories.ToList(); // fetch data and show it in a list
-            return View(ObjCategoryList); // passing the data to view 
+            return View(ObjCategoryList); 
         }
         public IActionResult CreateCategory()
         {

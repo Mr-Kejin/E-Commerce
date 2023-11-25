@@ -29,7 +29,8 @@ namespace GoodWillStones.DataAccess.Data
                     Price = 95,
                     Price50 = 90,
                     ListPrice100 = 80,
-                    //CategoryId = 1,
+                    CategoryId = 2,
+                    ImageURL = ""
                 }
                 );
         }
