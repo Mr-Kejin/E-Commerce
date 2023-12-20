@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace GoodWillStones.Models
 {
@@ -45,8 +46,9 @@ namespace GoodWillStones.Models
         public Double ListPrice100 { get; set; }
         public int CategoryId { get; set; } // forign key for the category 
         [ForeignKey("CategoryId")]
+        [ValidateNever]
         public Category Category { get; set; }
-
+        [ValidateNever]
       public string ImageURL { get; set; }    // image will be saved in this 
     }
 }
