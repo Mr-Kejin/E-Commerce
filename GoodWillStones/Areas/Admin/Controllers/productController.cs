@@ -135,15 +135,15 @@ namespace GoodWillStones.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        //#region API CALLS
-        //[HttpGet]
-        //public IActionResult GetAll()
-        //{
-        //    List<Products> ObjProductList = _UnitOfWork.Product.GetAll(includeProperties: "Category").ToList();
-        //    return Json(new {data = ObjProductList});
-        //}
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Products> ObjProductList = _UnitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            return Json(new { data = ObjProductList });
+        }
 
-        //#endregion
+        #endregion
 
     }
 }
