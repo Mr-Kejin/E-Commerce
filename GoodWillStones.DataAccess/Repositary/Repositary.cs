@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -18,7 +19,8 @@ namespace GoodWillStones.DataAccess.Repositary
         { 
             _db = db;
             this.dbset = _db.Set<T>(); // data has been inherited 
-           // _db.Categories == dbset 
+                                       // _db.Categories == dbset 
+            _db.Products.Include(x => x.Category).Include(x=> x.CategoryId);
            
         }
 
@@ -34,16 +36,33 @@ namespace GoodWillStones.DataAccess.Repositary
             throw new NotImplementedException();
         }
 
-        public T Get(Expression<Func<T, bool>> Filter)
+        public T Get(Expression<Func<T, bool>> Filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
             query = query.Where(Filter);
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             return query.FirstOrDefault(); 
         }
 
-        public IEnumerable<T> GetAll()
+        //
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach(var includeProp in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             return query.ToList();
         }
         public void Remove (T entity)

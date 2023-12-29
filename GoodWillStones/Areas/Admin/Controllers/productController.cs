@@ -15,17 +15,18 @@ namespace GoodWillStones.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly iUnitOfWork _UnitOfWork; // insted of using the application db con we are suing a speciified method here using dependency iinjectiion
-
-        public ProductController (iUnitOfWork UnitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(iUnitOfWork UnitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _UnitOfWork = UnitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         } 
 
 
 
         public IActionResult Index()
         {
-            List<Products> ObjProductList = _UnitOfWork.Product.GetAll().ToList();
+            List<Products> ObjProductList = _UnitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             return View(ObjProductList); // passing the data to view 
         }
         public IActionResult UpsertProduct(int? ProductID)
@@ -51,12 +52,41 @@ namespace GoodWillStones.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpsertProduct(ProductVm productVm,IFormFile file)
+        public IActionResult UpsertProduct(ProductVm productVm,IFormFile file) // ref 92
         {
 
             if (ModelState.IsValid)
             {
-                _UnitOfWork.Product.Add(productVm.Products); // we are telling the entity fw to add this category to the entity table 
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName); // assignining a proper name to the uploaded image 
+                    string productPath = Path.Combine(wwwRootPath, @"Images\Products");
+
+                    if (!string.IsNullOrEmpty(productVm.Products.ImageURL)) // replcing image handled here
+                    { // if image is present we need to remove te old imag and add nw 
+                        var oldImmagePath = Path.Combine(wwwRootPath , productVm.Products.ImageURL.TrimStart('\\'));
+                       if (System.IO.File.Exists(oldImmagePath))
+                        {
+                            System.IO.File.Delete(oldImmagePath);
+                        }
+                    }
+
+                    using( var fileStream = new FileStream(Path.Combine(productPath, fileName),FileMode.Create))
+                    {
+                        file.CopyTo(fileStream); 
+                    }
+
+                    productVm.Products.ImageURL = @"\Images\Products\" + fileName;
+                }
+                if (productVm.Products.Product_ID == 0)
+                {
+                    _UnitOfWork.Product.Add(productVm.Products); 
+                }
+                else
+                {
+                    _UnitOfWork.Product.Update(productVm.Products);
+                }
                 _UnitOfWork.Save();
                 TempData["Success"] = "Product Created Successfully";
                 return RedirectToAction("Index");
@@ -72,36 +102,7 @@ namespace GoodWillStones.Areas.Admin.Controllers
             }
             
         }
-        //public IActionResult EditProduct(int? ProductId, IFormFile file)
-        //{
-
-
-        //    if (ProductId == null || ProductId == 0)
-
-        //    {
-        //        return NotFound();
-        //    }
-            
-        //    Products? productFromDb = _UnitOfWork.Product.Get(u => u.Product_ID == ProductId);
-
-        //    if (productFromDb == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(productFromDb);
-        //}
-        //[HttpPost]
-        //public IActionResult EditProduct(Products Obj)  // (ProductsVm productVm, file)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _UnitOfWork.Product.Update(Obj); // we are telling the entity fw to add this category to the entity table 
-        //        _UnitOfWork.Save();
-        //        TempData["Success"] = "Product Updated Successfully";
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
+        
         // Delete Product
         // view 
         public IActionResult DeleteProduct(int? ProductId) // since the parameters are same we cant use the same delete name below
@@ -112,8 +113,6 @@ namespace GoodWillStones.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            // Product ProductFromDb = _db.Categories.Find(categoryId); find will ony work on the primary key of the table. but first or default will work everytime 
-          //  Products? ProductsFromDb = _UnitOfWork.Product.Get(x => x.Product_ID == ProductId);
             if (ProductsFromDb == null)
             {
                 return NotFound();
@@ -135,6 +134,16 @@ namespace GoodWillStones.Areas.Admin.Controllers
             _UnitOfWork.Save();
             return RedirectToAction("Index");
         }
+
+        //#region API CALLS
+        //[HttpGet]
+        //public IActionResult GetAll()
+        //{
+        //    List<Products> ObjProductList = _UnitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+        //    return Json(new {data = ObjProductList});
+        //}
+
+        //#endregion
 
     }
 }

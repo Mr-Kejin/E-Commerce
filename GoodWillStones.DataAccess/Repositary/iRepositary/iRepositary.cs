@@ -11,14 +11,11 @@ namespace GoodWillStones.DataAccess.Repositary.iRepositary
     public interface iRepositary<T> where T : class
     {
         // T - category or any other generic model
-        //here im using it gor generic method 
-        IEnumerable<T> GetAll();
-        T Get(Expression<Func<T,bool>> Filter); // link operation general syntax
-        // t= type  and dat type will be bool
+        IEnumerable<T> GetAll(string? includeProperties = null);
+        T Get(Expression<Func<T,bool>> Filter, string? includeProperties = null); 
         void Add(T entity);
         void Remove(T entity);
         void RemoveRange (IEnumerable<T> entity);
-        // since update cant be generic we are not having it in the gentric class
 
     }
 
